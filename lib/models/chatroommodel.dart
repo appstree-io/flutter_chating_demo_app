@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:json_annotation/json_annotation.dart';
 
 part 'chatroommodel.g.dart';
@@ -10,7 +11,14 @@ class ChatRoomModel {
 
   String? lastmessage;
 
-  ChatRoomModel({this.chatroomid, this.participants, this.lastmessage});
+  DateTime? time;
+
+  ChatRoomModel({
+    this.chatroomid,
+    this.participants,
+    this.lastmessage,
+    this.time,
+  });
 
   factory ChatRoomModel.fromJson(Map<String, dynamic> json) =>
       _$ChatRoomModelFromJson(json);

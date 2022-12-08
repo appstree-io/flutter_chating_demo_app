@@ -33,7 +33,6 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   var _focusNode = FocusNode();
-  // Icon floatingbuttonicon = Icon;
 
   focusListener() {
     setState(() {});
@@ -58,7 +57,7 @@ class _ChatPageState extends State<ChatPage> {
     msgcontroller.clear();
     if (message != "") {
       MessageModel newMessage = MessageModel(
-        messageid: uid.v1(),
+        messageid: uuid.v1(),
         messagetext: message,
         sender: widget.currentuser.uid,
         seen: false,
@@ -166,7 +165,7 @@ class _ChatPageState extends State<ChatPage> {
           children: [
             Expanded(
               child: Container(
-                margin: EdgeInsets.symmetric(
+                margin: const EdgeInsets.symmetric(
                   vertical: 5,
                   horizontal: 10,
                 ),
@@ -201,7 +200,7 @@ class _ChatPageState extends State<ChatPage> {
                       keyboardAppearance: Brightness.dark,
                       //textInputAction: TextInputAction.continueAction,
                       controller: msgcontroller,
-                      maxLines: 5,
+                      maxLines: 35,
                       focusNode: _focusNode,
                       decoration: InputDecoration(
                         hintText: 'Message...',
@@ -216,7 +215,7 @@ class _ChatPageState extends State<ChatPage> {
                         ),
                         prefixIcon: Padding(
                           padding: const EdgeInsets.only(
-                              top: 10, left: 10, right: 10),
+                              top: 0, left: 10, right: 10),
                           child: Image.asset(
                             "assets/smile.png",
                             color: Colors.black,
@@ -225,11 +224,10 @@ class _ChatPageState extends State<ChatPage> {
                           ),
                         ),
                         suffixIcon: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, left: 5, right: 15),
+                          padding:
+                              const EdgeInsets.only(top: 0, left: 3, right: 15),
                           child: Image.asset(
                             "assets/camera.png",
-                            // color: Colors.t,
                             height: 27,
                             width: 27,
                           ),

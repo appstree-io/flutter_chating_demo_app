@@ -2,10 +2,11 @@ import 'package:chat_app/screens/complete_profile_page.dart';
 import 'package:chat_app/screens/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:uuid/uuid.dart';
 import 'firebase_options.dart';
 
-var uid = Uuid();
+var uuid = Uuid();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
       home: LoginPage(),
+      builder: EasyLoading.init(),
     );
   }
 }

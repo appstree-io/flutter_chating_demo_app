@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:chat_app/screens/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:chat_app/models/usersmodel.dart';
 import 'package:chat_app/widgets/login_button.dart';
 
@@ -34,7 +32,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Upload Profile Picture"),
+            title: const Text("Upload Profile Picture"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -136,7 +134,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Complete Profile"),
+        title: const Text("Complete Your Profile Info"),
         backgroundColor: Color(0xff2865DC),
       ),
       body: SafeArea(

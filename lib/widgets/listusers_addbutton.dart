@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, use_build_context_synchronously
 import 'dart:developer';
 
 import 'package:chat_app/main.dart';
@@ -50,11 +50,15 @@ class _ChatListState extends State<ChatList> {
 
       chatRoom = existingchatroom;
     } else {
-      ChatRoomModel newchatroom =
-          ChatRoomModel(chatroomid: uid.v1(), lastmessage: "", participants: {
-        widget.chatUser.uid.toString(): true,
-        targetuser.uid.toString(): true,
-      });
+      ChatRoomModel newchatroom = ChatRoomModel(
+        chatroomid: uuid.v1(),
+        lastmessage: "",
+        participants: {
+          widget.chatUser.uid.toString(): true,
+          targetuser.uid.toString(): true,
+        },
+        time: DateTime.now(),
+      );
 
       await FirebaseFirestore.instance
           .collection("Chatrooms")

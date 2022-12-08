@@ -1,13 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:chat_app/provider/firebase_provider.dart';
+import 'package:chat_app/screens/selectusertochat_page.dart';
+import 'package:chat_app/screens/userinfo_page.dart';
+import 'package:chat_app/service/firebase_service.dart';
+import 'package:chat_app/widgets/chats_homepage.dart';
 import 'package:chat_app/widgets/profile_image_homepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../provider/firebase_provider.dart';
+import '../service/firebase_service.dart';
 import 'package:chat_app/models/usersmodel.dart';
-import 'package:chat_app/widgets/listview_homepage.dart';
+import 'package:chat_app/widgets/listusers_addbutton.dart';
 
 import 'login_page.dart';
 
@@ -63,10 +67,12 @@ class _HomePageState extends State<HomePage>
                     FirebaseService service = FirebaseService();
                     try {
                       await service.signOutFromGoogle();
-                      CircularProgressIndicator(
-                        value: 5,
-                        backgroundColor: Colors.black,
-                        color: Colors.white,
+                      EasyLoading.showToast(
+                        "Logged Out",
+                        toastPosition: EasyLoadingToastPosition.bottom,
+                        duration: const Duration(
+                          seconds: 1,
+                        ),
                       );
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => LoginPage()));
@@ -93,17 +99,22 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: ElevatedButton(
-        onPressed: () {},
-        child: Icon(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: ((context) {
+            return SelectUserToChat(chatUser: widget.chatUser);
+          })));
+        },
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Color(0xffFFFFFF),
+          backgroundColor: Color(0xff2865DC),
+          shape: CircleBorder(),
+          disabledForegroundColor: Color(0xff2865DC).withOpacity(0.38),
+          disabledBackgroundColor: Color(0xff2865DC).withOpacity(0.12),
+          padding: EdgeInsets.all(20),
+        ),
+        child: const Icon(
           Icons.add,
           size: 36,
-        ),
-        style: ElevatedButton.styleFrom(
-          shape: CircleBorder(),
-          padding: EdgeInsets.all(20),
-          onPrimary: Color(0xffFFFFFF),
-          onSurface: Color(0xff2865DC),
-          primary: Color(0xff2865DC),
         ),
       ),
       backgroundColor: Color(0xffFFFFFF),
@@ -112,18 +123,19 @@ class _HomePageState extends State<HomePage>
           backgroundColor: Colors.white,
           shadowColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          title: Padding(
-            padding: const EdgeInsets.only(left: 23, top: 23),
-            child: SizedBox(
-              width: 80,
-              height: 80,
-              child: CircleAvatar(
-                //  radius: 30,
-                child: Container(
-                    decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(40)),
-                    child: LogedInUserPic()),
+          leadingWidth: 110,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 30, top: 23),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: ((context) {
+                  return UserInfoPage(
+                    chatUser: widget.chatUser,
+                  );
+                })));
+              },
+              child: const CircleAvatar(
+                child: LogedInUserPic(),
               ),
             ),
           ),
@@ -141,7 +153,7 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Padding(
@@ -257,15 +269,11 @@ class _HomePageState extends State<HomePage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                ChatList(chatUser: widget.chatUser
-                    // (widget.chatUser == null)
-                    //     ? widget.chatUser!
-                    //     : widget.chatUser!,
-                    ),
-                Center(
+                ChatsHomePage(chatUser: widget.chatUser),
+                const Center(
                   child: Text("stories"),
                 ),
-                Center(
+                const Center(
                   child: Text("calls"),
                 ),
               ],

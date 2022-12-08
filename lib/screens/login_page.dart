@@ -3,13 +3,14 @@
 import 'dart:developer';
 
 import 'package:chat_app/models/usersmodel.dart';
-import 'package:chat_app/provider/firebase_provider.dart';
+import 'package:chat_app/service/firebase_service.dart';
 import 'package:chat_app/screens/signup_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/login_button.dart';
@@ -78,27 +79,31 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void login(String email, String password) async {
-    UserCredential? Credential;
+    UserCredential? credential;
     try {
-      Credential = await FirebaseAuth.instance
+      credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (exception) {
       print(exception.code.toString());
     }
 
-    if (Credential != null) {
-      String uid = Credential.user!.uid;
+    if (credential != null) {
+      String uid = credential.user!.uid;
       DocumentSnapshot userData =
           await FirebaseFirestore.instance.collection("Users").doc(uid).get();
       ChatUser loginUser =
           ChatUser.fromJson(userData.data() as Map<String, dynamic>);
-
+      EasyLoading.showInfo(
+        "Logging In",
+        dismissOnTap: true,
+        duration: const Duration(seconds: 1),
+      );
       Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => HomePage(
                   chatUser: loginUser,
-                  firestoreuser: Credential!.user!,
+                  firestoreuser: credential!.user!,
                 )),
       );
     } else {
@@ -116,9 +121,10 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 15,
-            vertical: 50,
+          padding: const EdgeInsets.only(
+            left: 15,
+            right: 15,
+            top: 100,
           ),
           child: SingleChildScrollView(
             child: Container(
@@ -193,6 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                       validateEmail(val);
 
                       checkValues();
+                      EasyLoading.showProgress(0.5, status: "Logging In");
                     },
                     child: Text(
                       "Log in",
@@ -213,14 +220,9 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () async {
                       FirebaseService service = FirebaseService();
                       try {
-                        await service.signInWithGoogle();
-                        CircularProgressIndicator(
-                          value: 5,
-                          backgroundColor: Colors.black,
-                          color: Colors.white,
-                        );
                         ChatUser chatUser;
                         chatUser = await service.signInWithGoogle();
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(

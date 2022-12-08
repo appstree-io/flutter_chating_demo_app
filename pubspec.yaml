@@ -53,6 +53,7 @@ dependencies:
   image_cropper: ^3.0.1
   email_validator: ^2.1.17
   uuid: ^3.0.7
+  flutter_easyloading: ^3.0.5
   
 
 dev_dependencies:

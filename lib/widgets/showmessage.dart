@@ -54,6 +54,7 @@ class _ShowMessagesState extends State<ShowMessages> {
                         Container(
                           margin: EdgeInsets.symmetric(
                             vertical: 10,
+                            horizontal: 10,
                           ),
                           padding: EdgeInsets.symmetric(
                             horizontal: 10,
@@ -65,7 +66,17 @@ class _ShowMessagesState extends State<ShowMessages> {
                                   : Color(0xffFFFFFF),
                               borderRadius: BorderRadius.circular(10),
                               shape: BoxShape.rectangle,
-                              boxShadow: []),
+                              boxShadow: [
+                                BoxShadow(
+                                  color:
+                                      (newmessage.sender == widget.chatuser.uid)
+                                          ? Color(0xffE4E9F6)
+                                          : Color(0xffE1E1E1),
+                                  blurRadius: 10,
+                                  blurStyle: BlurStyle.normal,
+                                  offset: Offset(0, 4),
+                                ),
+                              ]),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -92,7 +103,7 @@ class _ShowMessagesState extends State<ShowMessages> {
                                     DateFormat.jm()
                                         .format(newmessage.timecreated!),
                                     style: GoogleFonts.inter(
-                                      fontSize: 12,
+                                      fontSize: 11,
                                       fontWeight: FontWeight.w300,
                                       color: (newmessage.sender ==
                                               widget.chatuser.uid)
