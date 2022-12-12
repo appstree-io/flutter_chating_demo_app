@@ -34,9 +34,12 @@ class FirebaseService {
         dismissOnTap: true,
         duration: const Duration(seconds: 1),
       );
-      Future<ChatUser> chatUser;
-
-      chatUser = addSignInDetailsToDb(user);
+      ChatUser chatUser;
+      final checkUser = await checkSignInDetailsToDb(user);
+      chatUser = checkUser;
+      if (checkUser.uid == null) {
+        chatUser = await addSignInDetailsToDb(user);
+      }
 
       return chatUser;
     } on PlatformException catch (err) {
@@ -60,7 +63,7 @@ class FirebaseService {
     }
   }
 
-  Future<ChatUser> addSignInDetailsToDb(User user) async {
+  Future<ChatUser> addSignInDetailsToDb(User? user) async {
     ChatUser chatuser = ChatUser();
 
     if (user == null) {
@@ -75,6 +78,28 @@ class FirebaseService {
       );
       await _db.collection("Users").doc(uid).set(chatUser.toJson());
       chatuser = chatUser;
+    }
+    return chatuser;
+  }
+
+  Future<ChatUser> checkSignInDetailsToDb(User? user) async {
+    ChatUser chatuser = ChatUser();
+
+    if (user == null) {
+    } else {
+      String uid = user.uid;
+      final userDetails = await _db.collection("Users").doc(uid).get();
+      if (userDetails.exists) {
+        final userData = userDetails.data();
+        ChatUser chatUser = ChatUser(
+          uid: userData!['uid'],
+          username: userData['username'],
+          email: userData['email'],
+          phone: userData['phone'],
+          profilepic: userData['profilepic'],
+        );
+        chatuser = chatUser;
+      }
     }
     return chatuser;
   }

@@ -17,7 +17,7 @@ import 'package:chat_app/screens/chat_page.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatList extends StatefulWidget {
-  final ChatUser chatUser;
+  final User chatUser;
 
   const ChatList({
     Key? key,
@@ -32,6 +32,7 @@ class _ChatListState extends State<ChatList> {
   final ChatUser chatuser = ChatUser();
   FirebaseFirestore database = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  //final user = FirebaseAuth.currentUser;
 
   Future<ChatRoomModel?> getChatroomModel(ChatUser targetuser) async {
     ChatRoomModel chatRoom;
@@ -123,7 +124,7 @@ class _ChatListState extends State<ChatList> {
                               targetuser: addtochatUser,
                               firebaseuser: user,
                               chatroom: chatroommodel,
-                              currentuser: widget.chatUser,
+                              currentuser: user,
                             ),
                           ),
                         );

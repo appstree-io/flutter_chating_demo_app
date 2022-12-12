@@ -11,7 +11,7 @@ import 'package:chat_app/models/usersmodel.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class ChatsHomePage extends StatefulWidget {
-  final ChatUser chatUser;
+  final ChatUser? chatUser;
 
   const ChatsHomePage({
     Key? key,
@@ -31,7 +31,7 @@ class _ChatsHomePageState extends State<ChatsHomePage> {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("Chatrooms")
-            .where("participants.${widget.chatUser.uid}", isEqualTo: true)
+            .where("participants.${user!.uid}", isEqualTo: true)
             // .orderBy("time", descending: true)
             .snapshots(),
         builder: ((context, snapshot) {
@@ -47,7 +47,7 @@ class _ChatsHomePageState extends State<ChatsHomePage> {
                   Map<String, dynamic> participants =
                       chatRoomModel.participants!;
                   List<String> participantkeys = participants.keys.toList();
-                  participantkeys.remove(widget.chatUser.uid);
+                  participantkeys.remove(user.uid);
                   return FutureBuilder(
                     future:
                         FirebaseService.getUserModelbyId(participantkeys[0]),
@@ -71,8 +71,8 @@ class _ChatsHomePageState extends State<ChatsHomePage> {
                                       return ChatPage(
                                           targetuser: targetuser,
                                           chatroom: chatRoomModel,
-                                          currentuser: widget.chatUser,
-                                          firebaseuser: user!);
+                                          currentuser: user,
+                                          firebaseuser: user);
                                     }),
                                   ),
                                 );

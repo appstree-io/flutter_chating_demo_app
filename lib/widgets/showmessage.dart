@@ -1,8 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:chat_app/models/messagemodel.dart';
+import 'package:chat_app/widgets/viewmessagepicture.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chat_app/models/chatroommodel.dart';
 import 'package:chat_app/models/usersmodel.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +13,7 @@ import 'package:intl/intl.dart';
 
 class ShowMessages extends StatefulWidget {
   final ChatRoomModel chatroom;
-  final ChatUser chatuser;
+  final User chatuser;
   final ChatUser targetuser;
 
   const ShowMessages({
@@ -81,16 +84,36 @@ class _ShowMessagesState extends State<ShowMessages> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
-                                newmessage.messagetext.toString(),
-                                style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                  color:
-                                      (newmessage.sender == widget.chatuser.uid)
-                                          ? Colors.white
-                                          : Colors.black,
-                                ),
-                              ),
+                              (newmessage.msgimg == null &&
+                                      newmessage.messagetext
+                                          .toString()
+                                          .isNotEmpty)
+                                  ? Text(
+                                      newmessage.messagetext.toString(),
+                                      style: GoogleFonts.inter(
+                                        fontSize: 16,
+                                        color: (newmessage.sender ==
+                                                widget.chatuser.uid)
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return ViewMessagePic(
+                                            image: newmessage.msgimg.toString(),
+                                          );
+                                        }));
+                                      },
+                                      child: Image.network(
+                                        newmessage.msgimg.toString(),
+                                        width: 250,
+                                        height: 330,
+                                      ),
+                                    ),
                               SizedBox(
                                 height: 5,
                               ),

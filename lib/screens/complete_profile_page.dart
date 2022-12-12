@@ -154,7 +154,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   backgroundImage:
                       (imagefile != null) ? FileImage(imagefile!) : null,
                   radius: 60,
-                  child: (imagefile == null) ? Icon(Icons.person) : null,
+                  child: (imagefile == null) ? const Icon(Icons.person) : null,
                 ),
               ),
               const SizedBox(

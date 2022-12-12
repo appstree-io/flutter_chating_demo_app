@@ -16,12 +16,12 @@ import 'package:chat_app/widgets/listusers_addbutton.dart';
 import 'login_page.dart';
 
 class HomePage extends StatefulWidget {
-  final ChatUser chatUser;
+  final ChatUser? chatUser;
   final User? firestoreuser;
 
   const HomePage({
     Key? key,
-    required this.chatUser,
+    this.chatUser,
     this.firestoreuser,
   }) : super(key: key);
 
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage>
       floatingActionButton: ElevatedButton(
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: ((context) {
-            return SelectUserToChat(chatUser: widget.chatUser);
+            return SelectUserToChat(chatUser: user);
           })));
         },
         style: ElevatedButton.styleFrom(
@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage>
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: ((context) {
                   return UserInfoPage(
-                    chatUser: widget.chatUser,
+                    chatUser: user!,
                   );
                 })));
               },

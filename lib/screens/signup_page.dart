@@ -75,6 +75,8 @@ class _SignupPageState extends State<SignupPage> {
         backgroundColor: Colors.black,
         textColor: Colors.white,
       );
+    } on FirebaseAuthException catch (exception) {
+      print(exception.code);
     }
 
     if (credential != null) {
@@ -136,9 +138,6 @@ class _SignupPageState extends State<SignupPage> {
                 height: 45,
               ),
               TextFormField(
-                onChanged: (val) {
-                  validateEmail(val);
-                },
                 controller: emailcontroller,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
