@@ -71,12 +71,10 @@ class _SignupPageState extends State<SignupPage> {
           .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (exception) {
       Fluttertoast.showToast(
-        msg: "Email already exists",
+        msg: exception.code.toString(),
         backgroundColor: Colors.black,
         textColor: Colors.white,
       );
-    } on FirebaseAuthException catch (exception) {
-      print(exception.code);
     }
 
     if (credential != null) {
@@ -93,6 +91,11 @@ class _SignupPageState extends State<SignupPage> {
           .doc(uid)
           .set(newUser.toJson())
           .then((value) {
+        Fluttertoast.showToast(
+          msg: "Account Created Succesfully",
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+        );
         Navigator.push(context, MaterialPageRoute(builder: ((context) {
           return CompleteProfile(
             chatUser: newUser,

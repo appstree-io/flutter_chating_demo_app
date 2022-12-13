@@ -2,8 +2,8 @@
 
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:chat_app/widgets/about_userdata.dart';
+import 'package:chat_app/widgets/email_userdata.dart';
 import 'package:chat_app/widgets/name_userdata.dart';
 import 'package:chat_app/widgets/phone_userdata.dart';
 import 'package:chat_app/widgets/profile_image_homepage.dart';
@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import '../models/usersmodel.dart';
 
 class UserInfoPage extends StatefulWidget {
   final User chatUser;
@@ -214,7 +213,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           log("In update data");
                           UpdateProfileName();
                         },
-                        onEditingcomplete: (name) {
+                        onSubmitingcomplete: (name) {
                           UpdateProfileName();
                           Navigator.of(context).pop();
                         },
@@ -256,7 +255,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         ),
                         hinttext: "About",
                         maxlength: 130,
-                        onEditingcomplete: (about) {
+                        onSubmitingcomplete: (about) {
                           log("In editing complete");
                           UpdateProfileAbout();
                           Navigator.of(context).pop();
@@ -315,7 +314,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         title: const Text("Phone Number"),
                         hinttext: "Phone",
                         maxlength: 15,
-                        onEditingcomplete: (phone) {
+                        onSubmitingcomplete: (phone) {
                           UpdateProfilePhone();
                         },
                       );
@@ -350,6 +349,34 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     ),
                   ),
                   const Divider(),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.email,
+                      color: Colors.black,
+                    ),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Email",
+                          style: GoogleFonts.inter(
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        UserEmail(),
+                      ],
+                    ),
+                  ),
+                  const Divider(),
+                  const SizedBox(
+                    height: 5,
+                  ),
                 ],
               ),
             ),

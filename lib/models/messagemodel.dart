@@ -14,9 +14,6 @@ class MessageModel {
 
   String? messagetext;
 
-  @XFileConverter()
-  XFile? messageimage;
-
   bool? seen;
 
   DateTime? timecreated;
@@ -29,7 +26,6 @@ class MessageModel {
     this.sender,
     this.timecreated,
     this.messageid,
-    this.messageimage,
     this.msgimg,
   });
 
@@ -38,12 +34,12 @@ class MessageModel {
   Map<String, dynamic> toJson() => _$MessageModelToJson(this);
 }
 
-class XFileConverter extends JsonConverter<XFile?, String> {
-  const XFileConverter();
+// class XFileConverter extends JsonConverter<XFile?, String> {
+//   const XFileConverter();
 
-  @override
-  XFile fromJson(String json) => XFile(json);
+//   @override
+//   XFile fromJson(String json) => XFile(json);
 
-  @override
-  String toJson(XFile? object) => object!.path;
-}
+//   @override
+//   String toJson(XFile? object) => object.path;
+// }

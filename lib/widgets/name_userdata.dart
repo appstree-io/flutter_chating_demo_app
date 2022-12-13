@@ -10,7 +10,7 @@ class UserName extends StatefulWidget {
 }
 
 class _UserNameState extends State<UserName> {
-  Stream<DocumentSnapshot> _imageStream() {
+  Stream<DocumentSnapshot> _nameStream() {
     return FirebaseFirestore.instance
         .collection("Users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -20,7 +20,7 @@ class _UserNameState extends State<UserName> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: _imageStream(),
+      stream: _nameStream(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.none) {
           return Text("No Internet Connection");

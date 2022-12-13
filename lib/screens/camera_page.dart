@@ -8,16 +8,19 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:chat_app/widgets/previewimage_chatpage.dart';
 
 import '../models/chatroommodel.dart';
+import '../models/usersmodel.dart';
 
 class CameraPage extends StatefulWidget {
   final List<CameraDescription>? cameras;
   final ChatRoomModel chatroom;
   final User currentuser;
+  final ChatUser targetuser;
   const CameraPage({
     Key? key,
     required this.cameras,
     required this.chatroom,
     required this.currentuser,
+    required this.targetuser,
   }) : super(key: key);
 
   @override
@@ -60,6 +63,7 @@ class _CameraPageState extends State<CameraPage> {
                     picture: imagefile,
                     chatroom: widget.chatroom,
                     currentuser: widget.currentuser,
+                    targetuser: widget.targetuser,
                   )));
     }
   }

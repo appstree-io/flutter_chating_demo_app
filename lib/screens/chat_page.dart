@@ -9,6 +9,7 @@ import 'package:chat_app/screens/camera_page.dart';
 import 'package:chat_app/widgets/previewimage_chatpage.dart';
 import 'package:chat_app/widgets/showmessage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,7 +62,14 @@ class _ChatPageState extends State<ChatPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Upload Profile Picture"),
+            backgroundColor: Colors.black,
+            title: Text(
+              "Upload Image",
+              style: GoogleFonts.inter(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -70,8 +78,17 @@ class _ChatPageState extends State<ChatPage> {
                     Navigator.pop(context);
                     imageSelect(ImageSource.gallery);
                   },
-                  leading: Icon(Icons.photo_album),
-                  title: Text("Select from gallery"),
+                  leading: Icon(
+                    Icons.photo_album,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    "Gallery",
+                    style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 15,
@@ -85,11 +102,21 @@ class _ChatPageState extends State<ChatPage> {
                             cameras: value,
                             chatroom: widget.chatroom,
                             currentuser: widget.currentuser,
+                            targetuser: widget.targetuser,
                           );
                         })));
                   },
-                  leading: Icon(Icons.camera_alt),
-                  title: Text("Select from camera"),
+                  leading: Icon(
+                    Icons.camera_alt,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    "Camera",
+                    style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -121,6 +148,7 @@ class _ChatPageState extends State<ChatPage> {
                     picture: imagefile,
                     chatroom: widget.chatroom,
                     currentuser: widget.currentuser,
+                    targetuser: widget.targetuser,
                   )));
     }
   }
@@ -146,6 +174,7 @@ class _ChatPageState extends State<ChatPage> {
           .doc(newMessage.messageid)
           .set(newMessage.toJson());
 
+      widget.chatroom.lastmsgtime = DateTime.now();
       widget.chatroom.lastmessage = message;
 
       await FirebaseFirestore.instance
@@ -294,7 +323,9 @@ class _ChatPageState extends State<ChatPage> {
                             padding: const EdgeInsets.only(
                                 top: 0, left: 10, right: 10),
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                EmojiPicker();
+                              },
                               child: Image.asset(
                                 "assets/smile.png",
                                 color: Colors.black,
@@ -344,7 +375,7 @@ class _ChatPageState extends State<ChatPage> {
                             padding: EdgeInsets.all(10),
                           ),
                           child: Image.asset(
-                            (msgcontroller.value.text == "")
+                            (msgcontroller.value.text == "t")
                                 ? "assets/mic.png"
                                 : "assets/send1.png",
                             color: Colors.white,

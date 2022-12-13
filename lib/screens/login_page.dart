@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'dart:developer';
-
 import 'package:chat_app/models/usersmodel.dart';
+import 'package:chat_app/screens/phone_login_page.dart';
 import 'package:chat_app/service/firebase_service.dart';
 import 'package:chat_app/screens/signup_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -84,7 +84,11 @@ class _LoginPageState extends State<LoginPage> {
       credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (exception) {
-      print(exception.code.toString());
+      Fluttertoast.showToast(
+        msg: exception.code.toString(),
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+      );
     }
 
     if (credential != null) {
@@ -117,193 +121,213 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 15,
-            right: 15,
-            top: 100,
-          ),
-          child: SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 25,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/logo.png",
-                        width: 60,
-                        height: 40,
-                      ),
-                      SizedBox(width: 8),
-                      Image.asset(
-                        "assets/ping.png",
-                        width: 60,
-                        height: 40,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 45,
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    controller: emailcontroller,
-                    decoration: const InputDecoration(
-                      labelText: "Email",
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 15,
+              top: 100,
+            ),
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 25,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/splash-logo.png",
+                          width: MediaQuery.of(context).size.width * 0.4,
+                        ),
+                      ],
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      right: 203,
-                      left: 5,
-                      bottom: 5,
-                      top: 5,
+                    const SizedBox(
+                      height: 45,
                     ),
-                    child: Text(
-                      (_errorMessage == null) ? "" : _errorMessage.toString(),
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.visiblePassword,
-                    textInputAction: TextInputAction.done,
-                    controller: passwordcontroller,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: "Password",
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 35,
-                  ),
-                  LoginButton(
-                    height: 45,
-                    width: MediaQuery.of(context).size.width - 150,
-                    buttoncolor: Color(0xff2865DC),
-                    radius: 10,
-                    onPressed: () {
-                      String val = emailcontroller.text.trim();
-
-                      validateEmail(val);
-
-                      checkValues();
-                      EasyLoading.showProgress(0.5, status: "Logging In");
-                    },
-                    child: Text(
-                      "Log in",
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        color: Colors.white,
+                    TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                      controller: emailcontroller,
+                      decoration: const InputDecoration(
+                        labelText: "Email",
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  LoginButton(
-                    height: 45,
-                    width: MediaQuery.of(context).size.width - 150,
-                    buttoncolor: Color(0xff2865DC),
-                    radius: 10,
-                    onPressed: () async {
-                      FirebaseService service = FirebaseService();
-                      try {
-                        ChatUser chatUser;
-                        chatUser = await service.signInWithGoogle();
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        right: 203,
+                        left: 5,
+                        bottom: 5,
+                        top: 5,
+                      ),
+                      child: Text(
+                        (_errorMessage == null) ? "" : _errorMessage.toString(),
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.visiblePassword,
+                      textInputAction: TextInputAction.done,
+                      controller: passwordcontroller,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: "Password",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    LoginButton(
+                      height: 45,
+                      width: MediaQuery.of(context).size.width - 150,
+                      buttoncolor: Color(0xff2865DC),
+                      radius: 10,
+                      onPressed: () {
+                        String val = emailcontroller.text.trim();
 
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage(
-                                      chatUser: chatUser,
-                                    )));
-                      } catch (e) {
-                        if (e is FirebaseAuthException) {
-                          print(e.message);
-                          log(e.message!);
-                          showMessage(e.message!);
-                        } else if (e is PlatformException) {
-                          print(e.message);
-                          log(e.details);
+                        validateEmail(val);
+
+                        checkValues();
+                        EasyLoading.showProgress(0.5, status: "Logging In");
+                      },
+                      child: Text(
+                        "Log in",
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    LoginButton(
+                      height: 45,
+                      width: MediaQuery.of(context).size.width - 150,
+                      child: Text(
+                        "Login with Phone",
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                      buttoncolor: Color(0xff2865DC),
+                      radius: 10,
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: ((context) {
+                          return PhoneLogin();
+                        })));
+                      },
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    LoginButton(
+                      height: 45,
+                      width: MediaQuery.of(context).size.width - 150,
+                      buttoncolor: Color(0xff2865DC),
+                      radius: 10,
+                      onPressed: () async {
+                        FirebaseService service = FirebaseService();
+                        try {
+                          ChatUser chatUser;
+                          chatUser = await service.signInWithGoogle();
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage(
+                                        chatUser: chatUser,
+                                      )));
+                        } catch (e) {
+                          if (e is FirebaseAuthException) {
+                            print(e.message);
+                            log(e.message!);
+                            showMessage(e.message!);
+                          } else if (e is PlatformException) {
+                            print(e.message);
+                            log(e.details);
+                          }
                         }
-                      }
-                    },
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(
-                              5,
+                      },
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 8,
                             ),
-                            height: 38,
-                            width: 38,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25),
+                            Container(
+                              padding: EdgeInsets.all(
+                                5,
+                              ),
+                              height: 38,
+                              width: 38,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Image.asset(
+                                "assets/google.png",
+                                height: 40,
+                                width: 30,
+                              ),
                             ),
-                            child: Image.asset(
-                              "assets/google.png",
-                              height: 40,
-                              width: 30,
+                            SizedBox(
+                              width: 15,
                             ),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            "Sign in with Google",
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              color: Colors.white,
+                            Text(
+                              "Sign in with Google",
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                        ]),
-                  ),
-                ],
+                          ]),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(
-          bottom: 30,
-        ),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
-            "Don't have an account? ",
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-            ),
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.only(
+            bottom: 30,
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const SignupPage()));
-            },
-            child: Text(
-              "Sign up",
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text(
+              "Don't have an account? ",
               style: GoogleFonts.poppins(
                 fontSize: 16,
               ),
             ),
-          )
-        ]),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SignupPage()));
+              },
+              child: Text(
+                "Sign up",
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                ),
+              ),
+            )
+          ]),
+        ),
       ),
     );
   }

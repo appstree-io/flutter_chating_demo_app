@@ -13,11 +13,14 @@ class ChatRoomModel {
 
   DateTime? time;
 
+  DateTime? lastmsgtime;
+
   ChatRoomModel({
     this.chatroomid,
     this.participants,
     this.lastmessage,
     this.time,
+    this.lastmsgtime,
   });
 
   factory ChatRoomModel.fromJson(Map<String, dynamic> json) =>

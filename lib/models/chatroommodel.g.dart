@@ -13,6 +13,9 @@ ChatRoomModel _$ChatRoomModelFromJson(Map<String, dynamic> json) =>
       lastmessage: json['lastmessage'] as String?,
       time:
           json['time'] == null ? null : DateTime.parse(json['time'] as String),
+      lastmsgtime: json['lastmsgtime'] == null
+          ? null
+          : DateTime.parse(json['lastmsgtime'] as String),
     );
 
 Map<String, dynamic> _$ChatRoomModelToJson(ChatRoomModel instance) =>
@@ -21,4 +24,5 @@ Map<String, dynamic> _$ChatRoomModelToJson(ChatRoomModel instance) =>
       'participants': instance.participants,
       'lastmessage': instance.lastmessage,
       'time': instance.time?.toIso8601String(),
+      'lastmsgtime': instance.lastmsgtime?.toIso8601String(),
     };

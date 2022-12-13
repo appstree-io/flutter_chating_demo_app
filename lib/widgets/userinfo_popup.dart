@@ -7,7 +7,7 @@ class UserInfoPop {
   TextEditingController textcontroller;
   Widget title;
   int maxlength;
-  void Function(String)? onEditingcomplete;
+  void Function(String)? onSubmitingcomplete;
   String hinttext;
   TextInputType keyboardtype;
   VoidCallback updatedata;
@@ -17,7 +17,7 @@ class UserInfoPop {
     required this.textcontroller,
     required this.title,
     required this.maxlength,
-    required this.onEditingcomplete,
+    required this.onSubmitingcomplete,
     required this.hinttext,
     required this.keyboardtype,
     required this.updatedata,
@@ -35,7 +35,7 @@ class UserInfoPop {
             maxLength: maxlength,
             keyboardType: keyboardtype,
             textInputAction: TextInputAction.done,
-            onSubmitted: onEditingcomplete,
+            onSubmitted: onSubmitingcomplete,
             decoration: InputDecoration(
               hintText: hinttext,
             ),

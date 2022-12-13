@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
-
+import 'dart:io';
 import 'package:chat_app/models/chatroommodel.dart';
 import 'package:chat_app/screens/chat_page.dart';
 import 'package:chat_app/service/firebase_service.dart';
@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chat_app/models/usersmodel.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:intl/intl.dart';
 
 class ChatsHomePage extends StatefulWidget {
   final ChatUser? chatUser;
@@ -86,9 +87,45 @@ class _ChatsHomePageState extends State<ChatsHomePage> {
                               title: Text(
                                 targetuser.username.toString(),
                               ),
-                              subtitle: Text(
-                                chatRoomModel.lastmessage.toString(),
-                              ),
+                              subtitle: (chatRoomModel.lastmessage!.contains(
+                                      'https://firebasestorage.googleapis.com'))
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 5,
+                                      ),
+                                      child: Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.image,
+                                            size: 20,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "Image",
+                                          ),
+                                          SizedBox(
+                                            width: 40,
+                                          ),
+                                          Text(""),
+                                        ],
+                                      ))
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          chatRoomModel.lastmessage.toString(),
+                                        ),
+                                        Text(
+                                          (chatRoomModel.lastmsgtime == null)
+                                              ? ""
+                                              : DateFormat.jm().format(
+                                                  chatRoomModel.lastmsgtime!),
+                                        ),
+                                      ],
+                                    ),
                               trailing: Image.asset(
                                 "assets/right.png",
                                 scale: 3.5,
@@ -107,10 +144,11 @@ class _ChatsHomePageState extends State<ChatsHomePage> {
                               bottom: 10,
                             ),
                             child: Center(
-                                child: CircularProgressIndicator.adaptive(
-                              backgroundColor: Colors.black,
-                              value: 5,
-                            )),
+                              child: CircularProgressIndicator.adaptive(
+                                backgroundColor: Colors.black,
+                                value: 5,
+                              ),
+                            ),
                           ),
                         );
                       }

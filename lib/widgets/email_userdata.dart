@@ -2,15 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class UserPhone extends StatefulWidget {
-  const UserPhone({super.key});
+class UserEmail extends StatefulWidget {
+  const UserEmail({super.key});
 
   @override
-  State<UserPhone> createState() => _UserPhoneState();
+  State<UserEmail> createState() => _UserEmailState();
 }
 
-class _UserPhoneState extends State<UserPhone> {
-  Stream<DocumentSnapshot> _phoneStream() {
+class _UserEmailState extends State<UserEmail> {
+  Stream<DocumentSnapshot> _emailStream() {
     return FirebaseFirestore.instance
         .collection("Users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -20,7 +20,7 @@ class _UserPhoneState extends State<UserPhone> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: _phoneStream(),
+      stream: _emailStream(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.none) {
           return Text("No Internet Connection");
@@ -32,7 +32,7 @@ class _UserPhoneState extends State<UserPhone> {
         }
         dynamic data = snapshot.data;
         return Text(
-          (data['phone'] == null) ? "" : data['phone'],
+          (data['email'] == null) ? "" : data['email'],
         );
       },
     );
