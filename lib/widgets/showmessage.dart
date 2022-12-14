@@ -28,15 +28,22 @@ class ShowMessages extends StatefulWidget {
 }
 
 class _ShowMessagesState extends State<ShowMessages> {
+  late Stream<QuerySnapshot<Map<String, dynamic>>> stream;
+  @override
+  void initState() {
+    stream = FirebaseFirestore.instance
+        .collection("Chatrooms")
+        .doc(widget.chatroom.chatroomid)
+        .collection("Messages")
+        .orderBy("timecreated", descending: true)
+        .snapshots();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("Chatrooms")
-            .doc(widget.chatroom.chatroomid)
-            .collection("Messages")
-            .orderBy("timecreated", descending: true)
-            .snapshots(),
+        stream: stream,
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {

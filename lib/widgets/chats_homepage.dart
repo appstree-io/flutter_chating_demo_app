@@ -24,17 +24,26 @@ class ChatsHomePage extends StatefulWidget {
 }
 
 class _ChatsHomePageState extends State<ChatsHomePage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  late Stream<QuerySnapshot<Map<String, dynamic>>> stream;
+
+  @override
+  void initState() {
+    final user = auth.currentUser;
+    stream = FirebaseFirestore.instance
+        .collection("Chatrooms")
+        .where("participants.${user!.uid}", isEqualTo: true)
+        // .orderBy("time", descending: true)
+        .snapshots();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final user = _auth.currentUser;
+    final user = auth.currentUser;
     return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("Chatrooms")
-            .where("participants.${user!.uid}", isEqualTo: true)
-            // .orderBy("time", descending: true)
-            .snapshots(),
+        stream: stream,
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
@@ -48,7 +57,7 @@ class _ChatsHomePageState extends State<ChatsHomePage> {
                   Map<String, dynamic> participants =
                       chatRoomModel.participants!;
                   List<String> participantkeys = participants.keys.toList();
-                  participantkeys.remove(user.uid);
+                  participantkeys.remove(user!.uid);
                   return FutureBuilder(
                     future:
                         FirebaseService.getUserModelbyId(participantkeys[0]),

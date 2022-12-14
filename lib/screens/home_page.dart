@@ -50,14 +50,30 @@ class _HomePageState extends State<HomePage>
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Options"),
+            backgroundColor: Colors.black,
+            title: Text(
+              "Options",
+              style: GoogleFonts.inter(
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
                   onTap: () {},
-                  leading: Icon(Icons.settings),
-                  title: Text("Settings"),
+                  leading: const Icon(
+                    Icons.settings,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    "Settings",
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 15,
@@ -74,16 +90,28 @@ class _HomePageState extends State<HomePage>
                           seconds: 1,
                         ),
                       );
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => LoginPage()));
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
                     } catch (e) {
                       if (e is FirebaseAuthException) {
                         print(e.message);
                       }
                     }
                   },
-                  leading: Icon(Icons.logout_rounded),
-                  title: Text("Logout"),
+                  leading: const Icon(
+                    Icons.logout_rounded,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    "Logout",
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -105,19 +133,19 @@ class _HomePageState extends State<HomePage>
           })));
         },
         style: ElevatedButton.styleFrom(
-          foregroundColor: Color(0xffFFFFFF),
-          backgroundColor: Color(0xff2865DC),
-          shape: CircleBorder(),
-          disabledForegroundColor: Color(0xff2865DC).withOpacity(0.38),
-          disabledBackgroundColor: Color(0xff2865DC).withOpacity(0.12),
-          padding: EdgeInsets.all(20),
+          foregroundColor: const Color(0xffFFFFFF),
+          backgroundColor: const Color(0xff2865DC),
+          shape: const CircleBorder(),
+          disabledForegroundColor: const Color(0xff2865DC).withOpacity(0.38),
+          disabledBackgroundColor: const Color(0xff2865DC).withOpacity(0.12),
+          padding: const EdgeInsets.all(20),
         ),
         child: const Icon(
           Icons.add,
           size: 36,
         ),
       ),
-      backgroundColor: Color(0xffFFFFFF),
+      backgroundColor: const Color(0xffFFFFFF),
       appBar: AppBar(
           toolbarHeight: 136,
           backgroundColor: Colors.white,
@@ -134,9 +162,7 @@ class _HomePageState extends State<HomePage>
                   );
                 })));
               },
-              child: const CircleAvatar(
-                child: LogedInUserPic(),
-              ),
+              child: const LogedInUserPic(),
             ),
           ),
           actions: [
@@ -162,7 +188,7 @@ class _HomePageState extends State<HomePage>
               ),
               child: InkWell(
                 borderRadius: BorderRadius.circular(30),
-                customBorder: CircleBorder(side: BorderSide(width: 40)),
+                customBorder: const CircleBorder(side: BorderSide(width: 40)),
                 onTap: (() {
                   moreOptions();
                 }),
@@ -197,15 +223,15 @@ class _HomePageState extends State<HomePage>
               controller: _tabController,
               labelColor: Colors.black,
               indicatorColor: Colors.transparent,
-              unselectedLabelColor: Color(0xffB7B7B7),
+              unselectedLabelColor: const Color(0xffB7B7B7),
               indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
-                color: Color(0xffFFFFFF),
+                color: const Color(0xffFFFFFF),
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0xff000000).withOpacity(0.3),
+                    color: const Color(0xff000000).withOpacity(0.3),
                     blurRadius: 18,
-                    offset: Offset(2, 8),
+                    offset: const Offset(2, 8),
                   ),
                 ],
               ),

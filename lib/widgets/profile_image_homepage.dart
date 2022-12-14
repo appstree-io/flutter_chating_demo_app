@@ -31,8 +31,9 @@ class _LogedInUserPicState extends State<LogedInUserPic> {
           return Icon(Icons.person);
         }
         dynamic data = snapshot.data;
-        return Image.network(
-          data['profilepic'],
+        return CircleAvatar(
+          maxRadius: 80,
+          backgroundImage: NetworkImage(data['profilepic']),
         );
       },
     );

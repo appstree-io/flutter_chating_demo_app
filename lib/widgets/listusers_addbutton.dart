@@ -32,7 +32,8 @@ class _ChatListState extends State<ChatList> {
   final ChatUser chatuser = ChatUser();
   FirebaseFirestore database = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  //final user = FirebaseAuth.currentUser;
+
+  late Stream<QuerySnapshot<Map<String, dynamic>>> stream;
 
   Future<ChatRoomModel?> getChatroomModel(ChatUser targetuser) async {
     ChatRoomModel chatRoom;
@@ -73,13 +74,20 @@ class _ChatListState extends State<ChatList> {
   }
 
   @override
+  void initState() {
+    final user = _auth.currentUser;
+    stream = FirebaseFirestore.instance
+        .collection('Users')
+        .where("uid", isNotEqualTo: user!.uid)
+        .snapshots();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final user = _auth.currentUser;
     return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('Users')
-            .where("uid", isNotEqualTo: user!.uid)
-            .snapshots(),
+        stream: stream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           // snapshot.data.docs[index];
           if (!snapshot.hasData) {
@@ -122,7 +130,7 @@ class _ChatListState extends State<ChatList> {
                           MaterialPageRoute(
                             builder: (context) => ChatPage(
                               targetuser: addtochatUser,
-                              firebaseuser: user,
+                              firebaseuser: user!,
                               chatroom: chatroommodel,
                               currentuser: user,
                             ),

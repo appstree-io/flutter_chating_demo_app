@@ -42,13 +42,12 @@ dependencies:
   fluttertoast: ^8.1.1
   
   image_picker: ^0.8.6
-  shared_preferences: ^2.0.15
+  
   intl: ^0.17.0
   photo_view: ^0.14.0
   provider: ^6.0.4
-  country_code_picker: ^2.0.2
-  url_launcher: ^6.1.7
-  equatable: ^2.0.5
+  
+  
   firebase_database: ^10.0.6
   image_cropper: ^3.0.1
   email_validator: ^2.1.17

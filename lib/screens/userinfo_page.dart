@@ -150,13 +150,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                               return ViewUserProfilePic();
                             })));
                           },
-                          child: CircleAvatar(
-                            radius: 70,
-                            // backgroundImage: NetworkImage(
-                            //   widget.chatUser.profilepic.toString(),
-                            // ),
-                            child: LogedInUserPic(),
-                          ),
+                          child: const LogedInUserPic(),
                         ),
                         InkWell(
                           onTap: () {
@@ -353,7 +347,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     height: 5,
                   ),
                   ListTile(
-                    leading: Icon(
+                    leading: const Icon(
                       Icons.email,
                       color: Colors.black,
                     ),

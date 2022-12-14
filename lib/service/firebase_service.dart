@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:chat_app/main.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter/material.dart';
+
 import '../models/usersmodel.dart';
 
 class FirebaseService {
@@ -43,22 +43,14 @@ class FirebaseService {
 
       return chatUser;
     } on PlatformException catch (err) {
-      // Checks for type PlatformException
-
       if (err.code == 'sign_in_canceled') {
-        // Checks for sign_in_canceled exception
-
         log(err.code);
         rethrow;
       } else {
-        rethrow; // Throws PlatformException again because it wasn't the one we wanted
+        rethrow;
       }
     } on FirebaseAuthException catch (e) {
-      print(e.message);
       log(e.code);
-      rethrow;
-    } on PlatformException catch (e) {
-      print(e.message);
       rethrow;
     }
   }
