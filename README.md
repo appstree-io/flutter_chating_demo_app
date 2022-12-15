@@ -1,16 +1,42 @@
-# chat_app
+# Chat App with Firebase
 
-A new Flutter project.
+The UI of this chat app is developed in flutter and designed in figma. The app includes main page where chat rooms are present of user also there is profile page, login page etc.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+The app design was taken from this figma design file.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+https://www.figma.com/file/10G6zbwg91v7VEyn3jHIHY/Ping-Chat-App-(Community)?node-id=11%3A167&t=Cxirxsdvq7OSWpVT-0
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+![Instagram post - 1](https://user-images.githubusercontent.com/117644494/207776455-f378fc11-94aa-4926-bf72-30940b72498a.png)
+
+
+
+# Video
+
+
+![Simulator Screen Recording - iPhone 11 - 2022-12-15 at 09 48 53](https://user-images.githubusercontent.com/117644494/207776532-0918999c-459e-49a1-b0be-75e1e76237d9.gif)
+
+
+
+# Screenshots
+
+<img src="./screenshots/login.png" width=270 height=600>    <img src="./screenshots/signup.png" width=270 height=600>. <img src="./screenshots/loginphone.png" width=270 height=600>  <img src="./screenshots/signout.png" width=270 height=600>
+
+<p>&nbsp;</p>
+
+ <img src="./screenshots/homepage.png" width=270 height=600>    <img src="./screenshots/chatpage.png" width=270 height=600> <img src="./screenshots/profilepage.png" width=270 height=600> <img src="./screenshots/userstochat.png" width=270 height=600> <img src="./screenshots/cameraoptions.png" width=270 height=600>
+
+
+<p>&nbsp;</p>
+
+# App Overview
+
+Ping is a chat application developed in flutter for both android and ios users. The app contains major login methods like login with email, phone and google also users can signup and complete their user profile. After loging in they reach home screen where they see already open chatroom with other users if any. There is a profile page to see current info and also edit it. The main chat page is also functional and has features like sending texts,emojis and image files from gallery and camera as well. The chats work in realtime as firebase is used for backend and storage of our app. Users can also signout and select who they want to chat.
+
+
+# Future Work
+
+In future we have plans to add video and audio calls feature. File sending like pdfs, word to also be added. Searching to be implemented and blocking and deleting options as well are planned in future.
