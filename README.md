@@ -4,13 +4,17 @@ The UI of this chat app is developed in flutter and designed in figma. The app i
 
 
 
+
+
 The app design was taken from this figma design file.
 
 https://www.figma.com/file/10G6zbwg91v7VEyn3jHIHY/Ping-Chat-App-(Community)?node-id=11%3A167&t=Cxirxsdvq7OSWpVT-0
 
 
 
+
 ![Instagram post - 1](https://user-images.githubusercontent.com/117644494/207776455-f378fc11-94aa-4926-bf72-30940b72498a.png)
+
 
 
 
@@ -23,11 +27,11 @@ https://www.figma.com/file/10G6zbwg91v7VEyn3jHIHY/Ping-Chat-App-(Community)?node
 
 # Screenshots
 
-<img src="./screenshots/login.png" width=270 height=600>    <img src="./screenshots/signup.png" width=270 height=600>. <img src="./screenshots/loginphone.png" width=270 height=600>  <img src="./screenshots/signout.png" width=270 height=600>
+<img src="./Screenshots/login.png" width=270 height=600>    <img src="./Screenshots/signup.png" width=270 height=600>. <img src="./Screenshots/loginphone.png" width=270 height=600>  <img src="./Screenshots/signout.png" width=270 height=600>
 
-<p>&nbsp;</p>
 
- <img src="./screenshots/homepage.png" width=270 height=600>    <img src="./screenshots/chatpage.png" width=270 height=600> <img src="./screenshots/profilepage.png" width=270 height=600> <img src="./screenshots/userstochat.png" width=270 height=600> <img src="./screenshots/cameraoptions.png" width=270 height=600>
+
+ <img src="./Screenshots/homepage.png" width=270 height=600>    <img src="./Screenshots/chatpage.png" width=270 height=600> <img src="./Screenshots/profilepage.png" width=270 height=600> <img src="./Screenshots/userstochat.png" width=270 height=600> <img src="./Screenshots/cameraoptions.png" width=270 height=600>
 
 
 <p>&nbsp;</p>
