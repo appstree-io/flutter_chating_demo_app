@@ -27,11 +27,11 @@ https://www.figma.com/file/10G6zbwg91v7VEyn3jHIHY/Ping-Chat-App-(Community)?node
 
 # Screenshots
 
-<img src="./Screenshots/login.png" width=270 height=600>    <img src="./Screenshots/signup.png" width=270 height=600>. <img src="./Screenshots/loginphone.png" width=270 height=600>  <img src="./Screenshots/signout.png" width=270 height=600>
+<img src="./Screenshots/login.png" width=270 height=600>    <img src="./Screenshots/signup.png" width=270 height=600>. <img src="./Screenshots/loginphone.png" width=270 height=600>  
 
 
 
- <img src="./Screenshots/homepage.png" width=270 height=600>    <img src="./Screenshots/chatpage.png" width=270 height=600> <img src="./Screenshots/profilepage.png" width=270 height=600> <img src="./Screenshots/userstochat.png" width=270 height=600> <img src="./Screenshots/cameraoptions.png" width=270 height=600>
+ <img src="./Screenshots/homepage.png" width=270 height=600>    <img src="./Screenshots/chatpage.png" width=270 height=600> <img src="./Screenshots/profilepage.png" width=270 height=600> <img src="./Screenshots/userstochat.png" width=270 height=600> <img src="./Screenshots/cameraoptions.png" width=270 height=600> <img src="./Screenshots/signout.png" width=270 height=600>
 
 
 <p>&nbsp;</p>
