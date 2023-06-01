@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:chat_app/Utils/data_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+// import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../models/usersmodel.dart';
@@ -29,11 +29,11 @@ class FirebaseService {
       final UserCredential authResult =
           await _auth.signInWithCredential(credential);
       final User user = authResult.user!;
-      EasyLoading.showInfo(
-        "Logging In",
-        dismissOnTap: true,
-        duration: const Duration(seconds: 1),
-      );
+      // EasyLoading.showInfo(
+      //   "Logging In",
+      //   dismissOnTap: true,
+      //   duration: const Duration(seconds: 1),
+      // );
       ChatUser chatUser;
       final checkUser = await checkSignInDetailsToDb(user);
       chatUser = checkUser;
@@ -100,6 +100,17 @@ class FirebaseService {
     await _googleSignIn.signOut();
     await _auth.signOut();
   }
+
+  Future<void> updateUserToken(String token, String uid) async {
+    await _db
+        .collection(userCollectionName)
+        .doc(uid)
+        .set({"deviceToken": token}, options);
+  }
+
+  SetOptions options = SetOptions(
+    merge: true,
+  );
 
   static Future<ChatUser?> getUserModelbyId(String uid) async {
     ChatUser? chatUser;

@@ -1,4 +1,4 @@
-import 'package:chat_app/screens/complete_profile_phonelogin_page.dart';
+import 'package:chat_app/screens/Profile_Screens/complete_profile_phonelogin_page.dart';
 import 'package:chat_app/screens/home_page.dart';
 import 'package:chat_app/widgets/login_button.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../models/usersmodel.dart';
+import '../../models/usersmodel.dart';
 
 class PhoneLogin extends StatefulWidget {
   const PhoneLogin({super.key});
@@ -155,7 +155,6 @@ class _PhoneLoginState extends State<PhoneLogin> {
       // if(docRef.snapshots().isEmpty == true){
 
       // }
-
     }
   }
 

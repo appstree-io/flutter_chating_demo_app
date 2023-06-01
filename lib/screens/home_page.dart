@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:chat_app/screens/selectusertochat_page.dart';
-import 'package:chat_app/screens/userinfo_page.dart';
+import 'package:chat_app/screens/Profile_Screens/userinfo_page.dart';
+import 'package:chat_app/service/firebase_messaging_manger.dart';
 import 'package:chat_app/service/firebase_service.dart';
 import 'package:chat_app/widgets/chats_homepage.dart';
 import 'package:chat_app/widgets/profile_image_homepage.dart';
@@ -13,7 +14,7 @@ import '../service/firebase_service.dart';
 import 'package:chat_app/models/usersmodel.dart';
 import 'package:chat_app/widgets/listusers_addbutton.dart';
 
-import 'login_page.dart';
+import 'Login_Screens/login_page.dart';
 
 class HomePage extends StatefulWidget {
   final ChatUser? chatUser;
@@ -35,7 +36,16 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(
+      length: 3,
+      vsync: this,
+      // animationDuration: const Duration(milliseconds: 1),
+    );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      FirebaseMessagingManager firebaseMessagingManager =
+          FirebaseMessagingManager(context);
+      firebaseMessagingManager.init(user!);
+    });
     super.initState();
   }
 
@@ -43,6 +53,13 @@ class _HomePageState extends State<HomePage>
   void dispose() {
     super.dispose();
     _tabController.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    debugPrint(widget.chatUser?.username ?? '');
   }
 
   void moreOptions() {
@@ -121,16 +138,21 @@ class _HomePageState extends State<HomePage>
 
   User? user = FirebaseAuth.instance.currentUser;
   FirebaseService service = FirebaseService();
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  // final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: ElevatedButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: ((context) {
-            return SelectUserToChat(chatUser: user);
-          })));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) {
+                return SelectUserToChat(chatUser: user);
+              }),
+            ),
+          );
         },
         style: ElevatedButton.styleFrom(
           foregroundColor: const Color(0xffFFFFFF),
@@ -151,16 +173,22 @@ class _HomePageState extends State<HomePage>
           backgroundColor: Colors.white,
           shadowColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          leadingWidth: 110,
+          leadingWidth: 90,
           leading: Padding(
             padding: const EdgeInsets.only(left: 30, top: 23),
             child: InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: ((context) {
-                  return UserInfoPage(
-                    chatUser: user!,
-                  );
-                })));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: ((context) {
+                      return UserInfoPage(
+                        chatUser: user!,
+                      );
+                    }),
+                  ),
+                );
+                debugPrint(user?.uid ?? '');
               },
               child: const LogedInUserPic(),
             ),

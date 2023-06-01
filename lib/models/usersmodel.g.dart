@@ -13,6 +13,7 @@ ChatUser _$ChatUserFromJson(Map<String, dynamic> json) => ChatUser(
       username: json['username'] as String?,
       phone: json['phone'] as String?,
       about: json['about'] as String?,
+      deviceToken: json['deviceToken'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ChatUserToJson(ChatUser instance) => <String, dynamic>{
@@ -22,4 +23,5 @@ Map<String, dynamic> _$ChatUserToJson(ChatUser instance) => <String, dynamic>{
       'phone': instance.phone,
       'profilepic': instance.profilepic,
       'about': instance.about,
+      'deviceToken': instance.deviceToken,
     };

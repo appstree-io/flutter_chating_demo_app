@@ -1,10 +1,10 @@
 import 'package:chat_app/models/usersmodel.dart';
-import 'package:chat_app/screens/complete_profile_page.dart';
+import 'package:chat_app/screens/Profile_Screens/complete_profile_page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../widgets/login_button.dart';
+import '../../widgets/login_button.dart';
 import 'login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

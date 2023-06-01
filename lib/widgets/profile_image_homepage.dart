@@ -23,12 +23,12 @@ class _LogedInUserPicState extends State<LogedInUserPic> {
       stream: _imageStream(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.none) {
-          return Text("No Internet Connection");
+          return const Text("No Internet Connection");
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
         if (!snapshot.hasData) {
-          return Icon(Icons.person);
+          return const Icon(Icons.person);
         }
         dynamic data = snapshot.data;
         return CircleAvatar(

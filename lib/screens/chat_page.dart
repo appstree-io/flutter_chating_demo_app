@@ -6,6 +6,7 @@ import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chatroommodel.dart';
 import 'package:chat_app/models/messagemodel.dart';
 import 'package:chat_app/screens/camera_page.dart';
+import 'package:chat_app/service/cloud_notification.dart';
 import 'package:chat_app/widgets/previewimage_chatpage.dart';
 import 'package:chat_app/widgets/showmessage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -38,7 +39,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   var _focusNode = FocusNode();
-
+  int _maxLines = 1;
   XFile? imagefile;
 
   focusListener() {
@@ -155,7 +156,7 @@ class _ChatPageState extends State<ChatPage> {
 
   TextEditingController msgcontroller = TextEditingController();
 
-  void sendmessage() async {
+  Future<void> sendmessage() async {
     String message = msgcontroller.text.trim();
     msgcontroller.clear();
     if (message != "") {
@@ -201,8 +202,8 @@ class _ChatPageState extends State<ChatPage> {
           automaticallyImplyLeading: true,
           leading: BackButton(color: Colors.black),
           title: SizedBox(
-            width: 290,
-            height: 59,
+            width: 280,
+            height: 60,
             child: Row(
               children: [
                 SizedBox(
@@ -222,12 +223,15 @@ class _ChatPageState extends State<ChatPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      widget.targetuser.username.toString(),
-                      style: GoogleFonts.inter(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xff222222),
+                    Flexible(
+                      child: Text(
+                        widget.targetuser.username.toString(),
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff222222),
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -240,7 +244,7 @@ class _ChatPageState extends State<ChatPage> {
                         fontWeight: FontWeight.w500,
                         color: Color(0xff414141),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
@@ -251,143 +255,158 @@ class _ChatPageState extends State<ChatPage> {
               children: [
                 Image.asset(
                   'assets/video.png',
-                  height: 35,
-                  width: 35,
+                  height: 30,
+                  width: 30,
                 ),
                 const SizedBox(
                   width: 6,
                 ),
                 Image.asset(
                   'assets/more.png',
-                  height: 35,
-                  width: 35,
+                  height: 30,
+                  width: 30,
                 ),
               ],
             ),
           ],
         ),
-        body: Container(
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 10,
-                  ),
-                  child: ShowMessages(
-                    chatroom: widget.chatroom,
-                    chatuser: widget.currentuser,
-                    targetuser: widget.targetuser,
-                  ),
+        body: Column(
+          children: [
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.symmetric(
+                  vertical: 5,
+                  horizontal: 10,
+                ),
+                child: ShowMessages(
+                  chatroom: widget.chatroom,
+                  chatuser: widget.currentuser,
+                  targetuser: widget.targetuser,
                 ),
               ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 20, left: 20),
-                      width: MediaQuery.of(context).size.width - 100,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Color(0xffF3F3F3),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0xffDBDBDB),
-                            blurRadius: 15,
-                            spreadRadius: 1.5,
-                          ),
-                        ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(bottom: 20, left: 20),
+                  width: MediaQuery.of(context).size.width - 100,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Color(0xffF3F3F3),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color(0xffDBDBDB),
+                        blurRadius: 15,
+                        spreadRadius: 1.5,
                       ),
-                      child: TextFormField(
-                        keyboardAppearance: Brightness.dark,
-                        //textInputAction: TextInputAction.continueAction,
-                        controller: msgcontroller,
-                        maxLines: 35,
-                        focusNode: _focusNode,
-                        decoration: InputDecoration(
-                          hintText: 'Message...',
-                          hintStyle: GoogleFonts.inter(
-                            fontSize: 16,
-                            color: Color(0xffB5B4B4),
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.only(
-                            top: 19,
-                            left: 20,
-                          ),
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 0, left: 10, right: 10),
-                            child: GestureDetector(
-                              onTap: () {
-                                EmojiPicker();
-                              },
-                              child: Image.asset(
-                                "assets/smile.png",
-                                color: Colors.black,
-                                height: 27,
-                                width: 27,
-                              ),
-                            ),
-                          ),
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 0, left: 3, right: 15),
-                            child: InkWell(
-                              onTap: () {
-                                showPhotoOptions();
-                              },
-                              child: Image.asset(
-                                "assets/camera.png",
-                                height: 27,
-                                width: 27,
-                              ),
-                            ),
+                    ],
+                  ),
+                  child: TextFormField(
+                    keyboardAppearance: Brightness.dark,
+                    // textInputAction: TextInputAction.continueAction,
+                    controller: msgcontroller,
+                    maxLines: 10,
+                    expands: false,
+                    focusNode: _focusNode,
+                    // onChanged: (value) {
+                    //   setState(() {
+                    //     if (value.contains('\n')) {
+                    //       // Increase the maxLines when a newline is entered
+                    //       _maxLines += 1;
+                    //     }
+                    //   });
+                    // },
+                    decoration: InputDecoration(
+                      hintText: 'Message...',
+                      hintStyle: GoogleFonts.inter(
+                        fontSize: 16,
+                        color: Color(0xffB5B4B4),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.only(
+                        top: 19,
+                        left: 20,
+                      ),
+                      prefixIcon: Padding(
+                        padding:
+                            const EdgeInsets.only(top: 0, left: 10, right: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                            EmojiPicker();
+                          },
+                          child: Image.asset(
+                            "assets/smile.png",
+                            color: Colors.black,
+                            height: 27,
+                            width: 27,
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 10,
-                        right: 0,
-                        left: 10,
-                      ),
-                      child: FloatingActionButton(
-                        elevation: 15,
-                        onPressed: () {},
-                        child: ElevatedButton(
-                          onPressed: () {
-                            sendmessage();
+                      suffixIcon: Padding(
+                        padding:
+                            const EdgeInsets.only(top: 0, left: 3, right: 15),
+                        child: InkWell(
+                          onTap: () {
+                            showPhotoOptions();
                           },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Color(0xffFFFFFF),
-                            backgroundColor: Color(0xff2865DC),
-                            shape: CircleBorder(),
-                            disabledForegroundColor:
-                                Color(0xff2865DC).withOpacity(0.38),
-                            disabledBackgroundColor:
-                                Color(0xff2865DC).withOpacity(0.12),
-                            padding: EdgeInsets.all(10),
-                          ),
                           child: Image.asset(
-                            (msgcontroller.value.text == "t")
-                                ? "assets/mic.png"
-                                : "assets/send1.png",
-                            color: Colors.white,
-                            height: 36,
+                            "assets/camera.png",
+                            height: 27,
                             width: 27,
                           ),
                         ),
                       ),
                     ),
-                  ]),
-            ],
-          ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 10,
+                    right: 0,
+                    left: 10,
+                  ),
+                  child: FloatingActionButton(
+                    elevation: 15,
+                    onPressed: () {},
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        String message = msgcontroller.text;
+                        await sendmessage();
+                        await sendNotificationToDevice(
+                          widget.targetuser.deviceToken ?? '',
+                          widget.currentuser.displayName ?? 'AB Test',
+                          message,
+                          widget.currentuser.photoURL ?? '',
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Color(0xffFFFFFF),
+                        backgroundColor: Color(0xff2865DC),
+                        shape: CircleBorder(),
+                        disabledForegroundColor:
+                            Color(0xff2865DC).withOpacity(0.38),
+                        disabledBackgroundColor:
+                            Color(0xff2865DC).withOpacity(0.12),
+                        padding: EdgeInsets.all(10),
+                      ),
+                      child: Image.asset(
+                        (msgcontroller.value.text == "t")
+                            ? "assets/mic.png"
+                            : "assets/send1.png",
+                        color: Colors.white,
+                        height: 36,
+                        width: 27,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

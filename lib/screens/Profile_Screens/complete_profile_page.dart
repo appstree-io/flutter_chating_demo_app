@@ -1,35 +1,33 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
 import 'dart:io';
-
-import 'package:camera/camera.dart';
+import 'package:chat_app/screens/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../models/usersmodel.dart';
-import '../widgets/login_button.dart';
-import 'home_page.dart';
+import 'package:chat_app/models/usersmodel.dart';
+import 'package:chat_app/widgets/login_button.dart';
 
-class CompleteProfilePhone extends StatefulWidget {
+class CompleteProfile extends StatefulWidget {
   final ChatUser chatUser;
   final User firestoreuser;
-  const CompleteProfilePhone({
+
+  const CompleteProfile({
     Key? key,
     required this.chatUser,
     required this.firestoreuser,
   }) : super(key: key);
 
   @override
-  State<CompleteProfilePhone> createState() => _CompleteProfilePhoneState();
+  State<CompleteProfile> createState() => _CompleteProfileState();
 }
 
-class _CompleteProfilePhoneState extends State<CompleteProfilePhone> {
+class _CompleteProfileState extends State<CompleteProfile> {
   void showPhotoOptions() {
     showDialog(
         context: context,
@@ -67,24 +65,21 @@ class _CompleteProfilePhoneState extends State<CompleteProfilePhone> {
   File? imagefile;
   TextEditingController fullnamecontroller = TextEditingController();
   TextEditingController aboutcontroller = TextEditingController();
-  TextEditingController emailcontroller = TextEditingController();
 
   void checkValues() {
     String fullname = fullnamecontroller.text.trim();
     String about = aboutcontroller.text.trim();
-    String email = emailcontroller.text.trim();
 
-    if (imagefile != null || fullname != "" || about != "" || email != "") {
-      uploadData(fullname, about, email);
+    if (imagefile != null || fullname != "" || about != "") {
+      uploadData(fullname, about);
     } else {
-      Fluttertoast.showToast(msg: "Please Fill all Fields");
+      print("Please Fill all Values");
     }
   }
 
   void uploadData(
     String fullname,
     String about,
-    String email,
   ) async {
     UploadTask uploadTask = FirebaseStorage.instance
         .ref("profilepics")
@@ -95,22 +90,16 @@ class _CompleteProfilePhoneState extends State<CompleteProfilePhone> {
 
     String? imgUrl = await snapshot.ref.getDownloadURL();
 
-    widget.chatUser.email = email;
     widget.chatUser.profilepic = imgUrl;
     widget.chatUser.username = fullname;
     widget.chatUser.about = about;
 
     await FirebaseFirestore.instance
         .collection("Users")
-        .doc(widget.chatUser.uid.toString())
+        .doc(widget.chatUser.uid)
         .set(widget.chatUser.toJson())
         .then(
       (value) {
-        Fluttertoast.showToast(
-          msg: "Loggin In",
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
-        );
         Navigator.push(context, MaterialPageRoute(builder: ((context) {
           return HomePage(
             chatUser: widget.chatUser,
@@ -156,69 +145,57 @@ class _CompleteProfilePhoneState extends State<CompleteProfilePhone> {
             left: 35,
             right: 35,
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () {
-                    showPhotoOptions();
-                  },
-                  child: CircleAvatar(
-                    backgroundImage:
-                        (imagefile != null) ? FileImage(imagefile!) : null,
-                    radius: 60,
-                    child:
-                        (imagefile == null) ? const Icon(Icons.person) : null,
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () {
+                  showPhotoOptions();
+                },
+                child: CircleAvatar(
+                  backgroundImage:
+                      (imagefile != null) ? FileImage(imagefile!) : null,
+                  radius: 60,
+                  child: (imagefile == null) ? const Icon(Icons.person) : null,
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              TextField(
+                controller: fullnamecontroller,
+                decoration: const InputDecoration(
+                  labelText: "Full Name",
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              TextField(
+                controller: aboutcontroller,
+                decoration: const InputDecoration(
+                  labelText: "About Yourself",
+                ),
+              ),
+              const SizedBox(
+                height: 35,
+              ),
+              LoginButton(
+                height: 50,
+                width: 200,
+                buttoncolor: Color(0xff2865DC),
+                radius: 30,
+                onPressed: () {
+                  checkValues();
+                },
+                child: Text(
+                  "Submit",
+                  style: GoogleFonts.inter(
+                    fontSize: 16,
+                    color: Colors.white,
                   ),
                 ),
-                const SizedBox(
-                  height: 25,
-                ),
-                TextField(
-                  controller: emailcontroller,
-                  decoration: const InputDecoration(
-                    labelText: "Email Address",
-                  ),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                TextField(
-                  controller: fullnamecontroller,
-                  decoration: const InputDecoration(
-                    labelText: "Full Name",
-                  ),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                TextField(
-                  controller: aboutcontroller,
-                  decoration: const InputDecoration(
-                    labelText: "About Yourself",
-                  ),
-                ),
-                const SizedBox(
-                  height: 35,
-                ),
-                LoginButton(
-                  height: 50,
-                  width: 200,
-                  buttoncolor: Color(0xff2865DC),
-                  radius: 30,
-                  onPressed: () {
-                    checkValues();
-                  },
-                  child: Text(
-                    "Submit",
-                    style: GoogleFonts.inter(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

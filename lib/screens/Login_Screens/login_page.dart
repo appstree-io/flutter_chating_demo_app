@@ -2,9 +2,9 @@
 
 import 'dart:developer';
 import 'package:chat_app/models/usersmodel.dart';
-import 'package:chat_app/screens/phone_login_page.dart';
+import 'package:chat_app/screens/Login_Screens/phone_login_page.dart';
 import 'package:chat_app/service/firebase_service.dart';
-import 'package:chat_app/screens/signup_page.dart';
+import 'package:chat_app/screens/Login_Screens/signup_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,8 +13,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../widgets/login_button.dart';
-import 'home_page.dart';
+import '../../widgets/login_button.dart';
+import '../home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -97,11 +97,11 @@ class _LoginPageState extends State<LoginPage> {
           await FirebaseFirestore.instance.collection("Users").doc(uid).get();
       ChatUser loginUser =
           ChatUser.fromJson(userData.data() as Map<String, dynamic>);
-      EasyLoading.showInfo(
-        "Logging In",
-        dismissOnTap: true,
-        duration: const Duration(seconds: 1),
-      );
+      // EasyLoading.showInfo(
+      //   "Logging In",
+      //   dismissOnTap: true,
+      //   duration: const Duration(seconds: 1),
+      // );
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -198,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
                         validateEmail(val);
 
                         checkValues();
-                        EasyLoading.showProgress(0.5, status: "Logging In");
+                        // EasyLoading.showProgress(0.5, status: "Logging In");
                       },
                       child: Text(
                         "Log in",

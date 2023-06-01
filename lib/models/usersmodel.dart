@@ -4,22 +4,20 @@ part 'usersmodel.g.dart';
 
 @JsonSerializable()
 class ChatUser {
- 
   String? username;
 
- 
   String? uid;
 
-  
   String? email;
 
- 
   String? phone;
 
-  
   String? profilepic;
 
   String? about;
+
+  @JsonKey(defaultValue: '')
+  String? deviceToken;
 
   ChatUser({
     this.email,
@@ -28,6 +26,7 @@ class ChatUser {
     this.username,
     this.phone,
     this.about,
+    this.deviceToken,
   });
 
   factory ChatUser.fromJson(Map<String, dynamic> json) =>
