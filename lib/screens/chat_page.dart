@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
-import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chatroommodel.dart';
@@ -14,7 +13,6 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:chat_app/models/chatgroupmodel.dart';
 import 'package:chat_app/models/usersmodel.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,8 +36,8 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  var _focusNode = FocusNode();
-  int _maxLines = 1;
+  final _focusNode = FocusNode();
+  // int _maxLines = 1;
   XFile? imagefile;
 
   focusListener() {
@@ -79,7 +77,7 @@ class _ChatPageState extends State<ChatPage> {
                     Navigator.pop(context);
                     imageSelect(ImageSource.gallery);
                   },
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.photo_album,
                     color: Colors.white,
                   ),
@@ -107,7 +105,7 @@ class _ChatPageState extends State<ChatPage> {
                           );
                         })));
                   },
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.camera_alt,
                     color: Colors.white,
                   ),
@@ -192,15 +190,15 @@ class _ChatPageState extends State<ChatPage> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: Color(0xffF5F5F5),
+        backgroundColor: const Color(0xffF5F5F5),
         appBar: AppBar(
           shadowColor: Colors.transparent,
           toolbarHeight: 100,
           elevation: 5,
           scrolledUnderElevation: 5,
-          backgroundColor: Color(0xffFFFFFF),
+          backgroundColor: const Color(0xffFFFFFF),
           automaticallyImplyLeading: true,
-          leading: BackButton(color: Colors.black),
+          leading: const BackButton(color: Colors.black),
           title: SizedBox(
             width: 280,
             height: 60,
@@ -216,7 +214,7 @@ class _ChatPageState extends State<ChatPage> {
                     //  child: Image.network(widget.image!),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Column(
@@ -230,7 +228,7 @@ class _ChatPageState extends State<ChatPage> {
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Color(0xff222222),
+                          color: const Color(0xff222222),
                         ),
                       ),
                     ),
@@ -242,7 +240,7 @@ class _ChatPageState extends State<ChatPage> {
                       style: GoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: Color(0xff414141),
+                        color: const Color(0xff414141),
                       ),
                     ),
                   ],
@@ -291,12 +289,12 @@ class _ChatPageState extends State<ChatPage> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
-                  margin: EdgeInsets.only(bottom: 20, left: 20),
+                  margin: const EdgeInsets.only(bottom: 20, left: 20),
                   width: MediaQuery.of(context).size.width - 100,
                   height: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    color: Color(0xffF3F3F3),
+                    color: const Color(0xffF3F3F3),
                     boxShadow: const [
                       BoxShadow(
                         color: Color(0xffDBDBDB),
@@ -324,7 +322,7 @@ class _ChatPageState extends State<ChatPage> {
                       hintText: 'Message...',
                       hintStyle: GoogleFonts.inter(
                         fontSize: 16,
-                        color: Color(0xffB5B4B4),
+                        color: const Color(0xffB5B4B4),
                       ),
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.only(
@@ -336,7 +334,7 @@ class _ChatPageState extends State<ChatPage> {
                             const EdgeInsets.only(top: 0, left: 10, right: 10),
                         child: GestureDetector(
                           onTap: () {
-                            EmojiPicker();
+                            const EmojiPicker();
                           },
                           child: Image.asset(
                             "assets/smile.png",
@@ -378,20 +376,21 @@ class _ChatPageState extends State<ChatPage> {
                         await sendmessage();
                         await sendNotificationToDevice(
                           widget.targetuser.deviceToken ?? '',
-                          widget.currentuser.displayName ?? 'AB Test',
+                          //  widget.currentuser.displayName ??
+                          'AB Test',
                           message,
                           widget.currentuser.photoURL ?? '',
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Color(0xffFFFFFF),
-                        backgroundColor: Color(0xff2865DC),
-                        shape: CircleBorder(),
+                        foregroundColor: const Color(0xffFFFFFF),
+                        backgroundColor: const Color(0xff2865DC),
+                        shape: const CircleBorder(),
                         disabledForegroundColor:
-                            Color(0xff2865DC).withOpacity(0.38),
+                            const Color(0xff2865DC).withOpacity(0.38),
                         disabledBackgroundColor:
-                            Color(0xff2865DC).withOpacity(0.12),
-                        padding: EdgeInsets.all(10),
+                            const Color(0xff2865DC).withOpacity(0.12),
+                        padding: const EdgeInsets.all(10),
                       ),
                       child: Image.asset(
                         (msgcontroller.value.text == "t")

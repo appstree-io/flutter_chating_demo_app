@@ -1,29 +1,26 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:chat_app/provider/user_provider.dart';
 import 'package:chat_app/screens/selectusertochat_page.dart';
 import 'package:chat_app/screens/Profile_Screens/userinfo_page.dart';
 import 'package:chat_app/service/firebase_messaging_manger.dart';
 import 'package:chat_app/service/firebase_service.dart';
 import 'package:chat_app/widgets/chats_homepage.dart';
 import 'package:chat_app/widgets/profile_image_homepage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../service/firebase_service.dart';
 import 'package:chat_app/models/usersmodel.dart';
-import 'package:chat_app/widgets/listusers_addbutton.dart';
 
 import 'Login_Screens/login_page.dart';
 
 class HomePage extends StatefulWidget {
   final ChatUser? chatUser;
-  final User? firestoreuser;
-
+  final UserProvider? userProvider;
   const HomePage({
     Key? key,
     this.chatUser,
-    this.firestoreuser,
+    this.userProvider,
   }) : super(key: key);
 
   @override
@@ -57,9 +54,8 @@ class _HomePageState extends State<HomePage>
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    debugPrint(widget.chatUser?.username ?? '');
+    // debugPrint(widget.chatUser?.username ?? '');
   }
 
   void moreOptions() {
@@ -183,14 +179,15 @@ class _HomePageState extends State<HomePage>
                   MaterialPageRoute(
                     builder: ((context) {
                       return UserInfoPage(
-                        chatUser: user!,
+                        chatUser: widget.userProvider!.currentChatUser!,
                       );
                     }),
                   ),
                 );
-                debugPrint(user?.uid ?? '');
               },
-              child: const LogedInUserPic(),
+              child: LogedInUserPic(
+                userPic: widget.userProvider!.currentChatUser?.profilepic ?? '',
+              ),
             ),
           ),
           actions: [
@@ -323,7 +320,7 @@ class _HomePageState extends State<HomePage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                ChatsHomePage(chatUser: widget.chatUser),
+                ChatsHomePage(chatUser: widget.userProvider!.currentChatUser),
                 const Center(
                   child: Text("stories"),
                 ),

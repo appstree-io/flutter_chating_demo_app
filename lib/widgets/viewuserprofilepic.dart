@@ -1,9 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:chat_app/widgets/profile_image_homepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:chat_app/models/usersmodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ViewUserProfilePic extends StatefulWidget {
@@ -24,8 +21,8 @@ class _ViewUserProfilePicState extends State<ViewUserProfilePic> {
         toolbarHeight: 60,
         backgroundColor: Colors.black,
       ),
-      body: Center(
-        child: UserProfilePic(),
+      body: const Center(
+        child: const UserProfilePic(),
       ),
     );
   }
@@ -52,12 +49,12 @@ class _UserProfilePicState extends State<UserProfilePic> {
       stream: _imageStream(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.none) {
-          return Text("No Internet Connection");
+          return const Text("No Internet Connection");
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
         if (!snapshot.hasData) {
-          return Icon(Icons.person);
+          return const Icon(Icons.person);
         }
         dynamic data = snapshot.data;
         return Image.network(

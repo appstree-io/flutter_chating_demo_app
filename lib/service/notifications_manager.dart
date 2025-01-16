@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:chat_app/main.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 import '../models/notifications.dart';
 
 class NotificationsManager {
@@ -35,7 +35,7 @@ class NotificationsManager {
     });
   }
 
-  void createNotification(Notification? notificationObject) async {
+  void createNotification(NotificationModel? notificationObject) async {
     flutterLocalNotificationsPlugin.show(
       1,
       notificationObject?.title,
@@ -45,6 +45,7 @@ class NotificationsManager {
           channel.id,
           channel.name,
           channelDescription: channel.description,
+          color: Colors.blue,
           icon: '@drawable/app_notification',
           styleInformation:
               BigTextStyleInformation(notificationObject?.body ?? ''),

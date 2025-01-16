@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 import 'dart:io';
+import 'package:chat_app/models/usersmodel.dart';
 import 'package:chat_app/widgets/about_userdata.dart';
 import 'package:chat_app/widgets/email_userdata.dart';
 import 'package:chat_app/widgets/name_userdata.dart';
@@ -18,7 +19,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserInfoPage extends StatefulWidget {
-  final User chatUser;
+  final ChatUser chatUser;
 
   const UserInfoPage({
     Key? key,
@@ -150,7 +151,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
                               return ViewUserProfilePic();
                             })));
                           },
-                          child: const LogedInUserPic(),
+                          child: LogedInUserPic(
+                            userPic: widget.chatUser.profilepic ?? '',
+                          ),
                         ),
                         InkWell(
                           onTap: () {

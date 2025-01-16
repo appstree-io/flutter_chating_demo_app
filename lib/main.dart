@@ -1,9 +1,12 @@
+import 'package:chat_app/provider/chat_provider.dart';
+import 'package:chat_app/provider/user_provider.dart';
 import 'package:chat_app/screens/Splash_Screen/splashhome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -53,12 +56,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
-      home: authStateChanges(),
-      builder: EasyLoading.init(),
+    return MultiProvider(
+      providers: [
+        Provider(create: (context) => UserProvider()),
+        Provider(create: (context) => ChatProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(),
+        home: authStateChanges(),
+        builder: EasyLoading.init(),
+      ),
     );
   }
 }

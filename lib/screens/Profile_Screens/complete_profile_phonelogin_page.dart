@@ -109,7 +109,7 @@ class _CompleteProfilePhoneState extends State<CompleteProfilePhone> {
         Navigator.push(context, MaterialPageRoute(builder: ((context) {
           return HomePage(
             chatUser: widget.chatUser,
-            firestoreuser: widget.firestoreuser,
+            // firestoreuser: widget.firestoreuser,
           );
         })));
       },

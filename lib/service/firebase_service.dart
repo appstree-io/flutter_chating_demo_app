@@ -123,4 +123,19 @@ class FirebaseService {
     }
     return chatUser;
   }
+
+  Future<ChatUser?> getCurrentUser(String uid) async {
+    try {
+      DocumentSnapshot snapshot =
+          await FirebaseFirestore.instance.collection("Users").doc(uid).get();
+      if (snapshot.data() != null) {
+        return snapshot.data() as ChatUser;
+      } else {
+        return ChatUser();
+      }
+    } catch (e) {
+      print(e);
+      return ChatUser();
+    }
+  }
 }

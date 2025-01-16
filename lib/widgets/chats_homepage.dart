@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/models/chatroommodel.dart';
 import 'package:chat_app/screens/chat_page.dart';
@@ -9,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chat_app/models/usersmodel.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 
 class ChatsHomePage extends StatefulWidget {
@@ -100,7 +97,7 @@ class _ChatsHomePageState extends State<ChatsHomePage> {
                                   },
                                   fit: BoxFit.contain,
                                   errorWidget: (context, url, error) {
-                                    return Icon(
+                                    return const Icon(
                                       Icons.error,
                                       //   color: Colors.red,
                                     );
@@ -160,7 +157,7 @@ class _ChatsHomePageState extends State<ChatsHomePage> {
                         return const Text("User data is null");
                       }
                     } else {
-                      return Center(child: SizedBox());
+                      return const Center(child: SizedBox());
                     }
                   },
                 );

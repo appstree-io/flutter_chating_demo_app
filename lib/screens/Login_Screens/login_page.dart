@@ -34,11 +34,11 @@ class _LoginPageState extends State<LoginPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Error"),
+            title: const Text("Error"),
             content: Text(message),
             actions: [
               TextButton(
-                child: Text("Ok"),
+                child: const Text("Ok"),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -105,10 +105,10 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => HomePage(
-                  chatUser: loginUser,
-                  firestoreuser: credential!.user!,
-                )),
+          builder: (context) => HomePage(
+            chatUser: loginUser,
+          ),
+        ),
       );
     } else {
       Fluttertoast.showToast(
@@ -169,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: Text(
                         (_errorMessage == null) ? "" : _errorMessage.toString(),
-                        style: TextStyle(color: Colors.red),
+                        style: const TextStyle(color: Colors.red),
                       ),
                     ),
                     const SizedBox(
@@ -190,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                     LoginButton(
                       height: 45,
                       width: MediaQuery.of(context).size.width - 150,
-                      buttoncolor: Color(0xff2865DC),
+                      buttoncolor: const Color(0xff2865DC),
                       radius: 10,
                       onPressed: () {
                         String val = emailcontroller.text.trim();
@@ -214,6 +214,14 @@ class _LoginPageState extends State<LoginPage> {
                     LoginButton(
                       height: 45,
                       width: MediaQuery.of(context).size.width - 150,
+                      buttoncolor: const Color(0xff2865DC),
+                      radius: 10,
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: ((context) {
+                          return const PhoneLogin();
+                        })));
+                      },
                       child: Text(
                         "Login with Phone",
                         style: GoogleFonts.poppins(
@@ -221,14 +229,6 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.white,
                         ),
                       ),
-                      buttoncolor: Color(0xff2865DC),
-                      radius: 10,
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: ((context) {
-                          return PhoneLogin();
-                        })));
-                      },
                     ),
                     const SizedBox(
                       height: 15,
@@ -236,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                     LoginButton(
                       height: 45,
                       width: MediaQuery.of(context).size.width - 150,
-                      buttoncolor: Color(0xff2865DC),
+                      buttoncolor: const Color(0xff2865DC),
                       radius: 10,
                       onPressed: () async {
                         FirebaseService service = FirebaseService();
@@ -264,11 +264,11 @@ class _LoginPageState extends State<LoginPage> {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
                             Container(
-                              padding: EdgeInsets.all(
+                              padding: const EdgeInsets.all(
                                 5,
                               ),
                               height: 38,
@@ -283,7 +283,7 @@ class _LoginPageState extends State<LoginPage> {
                                 width: 30,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 15,
                             ),
                             Text(

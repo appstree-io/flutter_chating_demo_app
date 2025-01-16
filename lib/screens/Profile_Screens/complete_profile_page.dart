@@ -1,12 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 import 'dart:io';
 import 'package:chat_app/screens/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -42,8 +40,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     Navigator.pop(context);
                     imageSelect(ImageSource.gallery);
                   },
-                  leading: Icon(Icons.photo_album),
-                  title: Text("Select from gallery"),
+                  leading: const Icon(Icons.photo_album),
+                  title: const Text("Select from gallery"),
                 ),
                 const SizedBox(
                   height: 15,
@@ -53,8 +51,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     Navigator.pop(context);
                     imageSelect(ImageSource.camera);
                   },
-                  leading: Icon(Icons.camera_alt),
-                  title: Text("Select from camera"),
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text("Select from camera"),
                 ),
               ],
             ),
@@ -103,7 +101,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
         Navigator.push(context, MaterialPageRoute(builder: ((context) {
           return HomePage(
             chatUser: widget.chatUser,
-            firestoreuser: widget.firestoreuser,
+            // firestoreuser: widget.firestoreuser,
           );
         })));
       },
@@ -121,7 +119,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
     CroppedFile? cropedImage = (await ImageCropper().cropImage(
       sourcePath: file.path,
       compressQuality: 20,
-      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
     ));
 
     if (cropedImage != null) {
@@ -136,7 +134,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Complete Your Profile Info"),
-        backgroundColor: Color(0xff2865DC),
+        backgroundColor: const Color(0xff2865DC),
       ),
       body: SafeArea(
         child: Padding(
@@ -182,7 +180,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
               LoginButton(
                 height: 50,
                 width: 200,
-                buttoncolor: Color(0xff2865DC),
+                buttoncolor: const Color(0xff2865DC),
                 radius: 30,
                 onPressed: () {
                   checkValues();

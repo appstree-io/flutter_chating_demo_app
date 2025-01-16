@@ -1,4 +1,3 @@
-import 'package:chat_app/screens/home_page.dart';
 import 'package:chat_app/service/firebase_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +48,7 @@ class FirebaseMessagingManager {
       print('Message title: ${message.notification!.title}');
       print('Message data: ${message.data}');
 
-      var noti = model.Notification(
+      var noti = model.NotificationModel(
         title: message.notification?.title ?? '',
         body: message.notification?.body ?? '',
       );

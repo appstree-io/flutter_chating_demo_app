@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LogedInUserPic extends StatefulWidget {
-  const LogedInUserPic({Key? key}) : super(key: key);
+  String userPic;
+  LogedInUserPic({Key? key, required this.userPic}) : super(key: key);
 
   @override
   State<LogedInUserPic> createState() => _LogedInUserPicState();
